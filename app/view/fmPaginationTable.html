@@ -1,15 +1,32 @@
 <div class="pagination_block">
-	<input type="button" class="btn" ng-disabled="activePage==0" value="<< First" ng-click="activePage=0">
-	<input type="button" class="btn" ng-disabled="activePage==0" value="< Prev." ng-click="activePage=activePage-1">
+	<input type="button" class="btn btn-small" ng-disabled="activePage==0" value="<< First" ng-click="activePage=0">
+	<input type="button" class="btn btn-small" ng-disabled="activePage==0" value="< Prev." ng-click="activePage=activePage-1">
+
+	<input type="button" class="btn btn-mini" value="{{pagNumb=activePage-3}}" ng-hide="pagNumb < 1" ng-click="activePage=activePage-4">
+	<input type="button" class="btn btn-mini" value="{{pagNumb=activePage-2}}" ng-hide="pagNumb < 1" ng-click="activePage=activePage-3">
+
+	<!-- hide -->
+
+	<input type="button" class="btn btn-mini" value="{{pagNumb=activePage-1}}" ng-hide="pagNumb < 1" ng-click="activePage=activePage-2">
+	<input type="button" class="btn btn-mini" value="{{pagNumb=activePage-0}}" ng-hide="pagNumb < 1" ng-click="activePage=activePage-1">
+	<input type="button" class="btn btn-mini btn-primary" value="{{pagNumb=activePage+1}}" ng-disabled="pagNumb==activePage" >
+	<input type="button" class="btn btn-mini" value="{{pagNumb=activePage+2}}" ng-click="activePage=activePage+1" ng-hide="pagNumb > pages+1">
+	<input type="button" class="btn btn-mini" value="{{pagNumb=activePage+3}}" ng-click="activePage=activePage+2" ng-hide="pagNumb > pages">
+
+	<!-- hide -->
+
+	<input type="button" class="btn btn-mini" value="{{pagNumb=activePage+4}}" ng-hide="pagNumb > pages" ng-click="activePage=activePage+3">
+	<input type="button" class="btn btn-mini" value="{{pagNumb=activePage+5}}" ng-hide="pagNumb > pages" ng-click="activePage=activePage+4">
+
+	
 	<!-- <div >
-		<input type="button" value='{{pages}}''>
-		
+			<input type="button" value='{{pages}}''>
+			
 	</div> to do -->
-	{{activePage+1}} / {{pages+1}} 
-	<input type="button" class="btn" value="Next >" ng-disabled="activePage==pages" ng-click="activePage=activePage+1">
-	<input type="button" class="btn" ng-disabled="activePage==pages" value="Last >>" ng-click="activePage=pages">
+	{{activePage+1}} / {{pages+1}}
+	<input type="button" class="btn btn-small" value="Next >" ng-disabled="activePage==pages" ng-click="activePage=activePage+1">
+	<input type="button" class="btn btn-small" ng-disabled="activePage==pages" value="Last >>" ng-click="activePage=pages">
 	<div ng-hide='records==userData.length'>
 		Found <b>{{records = (userData | filter:search).length}}</b> records from <b>{{userData.length}}</b>
 	</div>
 </div>
-
