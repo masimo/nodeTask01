@@ -1,11 +1,11 @@
 'use strict';
 
-
-demoTask.controller('LargeModeController', function NormalModeController($scope, $http, $filter) {
-
+demoTask.controller('testController', function testController($scope, $http, $filter) {
 	$scope.pagina = 20;
 	$scope.paginationBut = 7;
 	$scope.activePage = 0;
+
+
 
 	var records = $scope.records;
 	var filter = $scope.filter = {};
@@ -21,6 +21,7 @@ demoTask.controller('LargeModeController', function NormalModeController($scope,
 			return false
 		}
 
+
 		$scope.pages = Math.ceil($scope.records / $scope.pagina) - 1;
 		$scope.activePage = $scope.activePage > $scope.pages ? $scope.pages : $scope.activePage;
 
@@ -28,6 +29,8 @@ demoTask.controller('LargeModeController', function NormalModeController($scope,
 
 
 	function filterAndSortData() {
+
+
 
 		// sort
 		$scope.userData.sort(function(a, b) {
@@ -54,7 +57,9 @@ demoTask.controller('LargeModeController', function NormalModeController($scope,
 
 		});
 
+
 	};
+
 	$scope.sortBy = function(key) {
 		if (filter.sortBy === key) {
 			filter.sortAsc = !filter.sortAsc;
@@ -78,27 +83,28 @@ demoTask.controller('LargeModeController', function NormalModeController($scope,
 
 		$scope.activePage = 0;
 		$scope.userData = [];
-		$scope.httpReq = true;
 
 		$http({
-			method: 'POST',
-			url: '/largeMode'
+			method: 'GET',
+			url: 'data/data_l.json'
 		}).
 		success(function(data, status, headers, config) {
 
-			angular.forEach(data, function(value) {
+			angular.forEach(data, function(value, key) {
+
+				if (!key) return;
 
 				$scope.userData.push({
-					id: value.id,
-					name: value.Name,
-					price: value.Price,
-					bid: value.rating
+					id: value[0],
+					name: value[1],
+					price: value[2],
+					bid: value[3]
 				});
+
 			});
 
 
 			$scope.pages = Math.ceil($scope.userData.length / $scope.pagina) - 1;
-			$scope.httpReq = false;
 
 
 		}).
@@ -106,14 +112,9 @@ demoTask.controller('LargeModeController', function NormalModeController($scope,
 			console.log('crashed');
 		});
 
-
-
-	}
+	};
 
 
 
 	$scope.init();
-
-
-
 });

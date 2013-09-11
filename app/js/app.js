@@ -16,5 +16,9 @@ demoTask.config(function($routeProvider) {
   when('/normal', {
     controller: 'NormalModeController',
     templateUrl: 'view/table.html'
+  }).
+  when('/testMode', {
+    controller: 'testController',
+    templateUrl: 'view/table.html'
   });
 });

@@ -83,28 +83,27 @@ demoTask.controller('NormalModeController', function NormalModeController($scope
 		
 		$scope.activePage = 0;
 		$scope.userData = [];
+		$scope.httpReq = true;
 
 		$http({
-			method: 'GET',
-			url: 'data/data.json'
+			method: 'POST',
+			url: '/normalMode'
 		}).
 		success(function(data, status, headers, config) {
 
-			angular.forEach(data, function(value, key) {
-
-				if (!key) return;
+			angular.forEach(data, function(value) {
 
 				$scope.userData.push({
-					id: value[0],
-					name: value[1],
-					price: value[2],
-					bid: value[3]
+					id: value.id,
+					name: value.Name,
+					price: value.Price,
+					bid: value.rating
 				});
-
 			});
 
 
 			$scope.pages = Math.ceil($scope.userData.length / $scope.pagina) - 1;
+			$scope.httpReq = false;
 
 
 		}).

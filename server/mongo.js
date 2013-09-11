@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 var db = mongoose.connection;
 
+
 db.on('error', console.error);
 db.once('open', function() {
 
@@ -17,6 +18,7 @@ db.once('open', function() {
 	// Compile a 'Movie' model using the movieSchema as the structure.
 	// Mongoose also creates a MongoDB collection called 'Movies' for these documents.
 	var Movie = mongoose.model('Movie', movieSchema);
+
 
 
 	var thor = new Movie({

@@ -1,18 +1,14 @@
 var mongoose = require('mongoose');
 var fs = require('fs');
 
-var jf = require('jsonfile'),
-	util = require('util');
-
 var db = mongoose.connection;
 
-var DATA_FILE = './data/data_test.json';
+//var DATA_FILE = __dirname + '/data/data_L.json';
 
+var data = {};
 
 db.on('error', console.error);
 db.once('open', function() {
-
-	var newData = [];
 
 	var theObject = new mongoose.Schema({
 		id: Number,
@@ -23,57 +19,19 @@ db.once('open', function() {
 
 	// Compile a 'Movie' model using the theObject as the structure.
 	// Mongoose also creates a MongoDB collection called 'Movies' for these documents.
-	var Item = mongoose.model('Item', theObject);
-
-	/*
-	jf.readFile(DATA_FILE, function(err, obj) {
-		console.log(util.inspect(obj));
-	});*/
-
-	fs.readFile(DATA_FILE, 'utf8', function(err, data) {
-
-		data = JSON.parse(data);
-
-		for (var i = 0, len = data.length; i < len; i++) {
-			//if (i == 1) return;
-
-			console.log(data[i]);
-
-		};
 
 
 
-		/*json.forEach(function(value, key) {
+	/*fs.readFile(DATA_FILE, 'utf8', function(err, data) {
+
+		JSON.parse(data).forEach(function(value, key) {
+
 
 			if (!key) return;
 
-			var itemsCollection = new Item({
-				id: value[0],
-				Name: value[1],
-				Price: value[2],
-				rating: value[3]
-			});
-
-				itemsCollection.save(function(err, itemsCollection) {
-				if (err) return console.error(err);
-				//console.dir(itemsCollection);
-			});
-
-		});*/
-	});
-	/*
-	fs.readFile(DATA_FILE, 'utf8', function(err, data) {
-		if (err) {
-			console.error(err)
-		};
 
 
-
-		data.forEach(function(value, key) {
-
-			if (!key) return;
-
-			var itemsCollection = new Item({
+			var itemsCollection = new data_large({
 				id: value[0],
 				Name: value[1],
 				Price: value[2],
@@ -82,14 +40,13 @@ db.once('open', function() {
 
 			itemsCollection.save(function(err, itemsCollection) {
 				if (err) return console.error(err);
-				//console.dir(itemsCollection);
+				console.dir(itemsCollection);
 			});
 
 		});
+	});
 
-	});*/
-
-
+*/
 
 	/* itemsCollection.save(function(err, itemsCollection) {
 if (err) return console.error(err);
@@ -105,13 +62,29 @@ console.dir(itemsCollection);
 	});*/
 
 	// Find all movies.
-	/*Item.find(function(err, itemsCollection) {
-		if (err) return console.error(err);
-		console.dir(itemsCollection);
-	});*/
+
+	data.normalData = function(callback) {
+
+		var data_normal = mongoose.model('data_normal', theObject);
+
+		data_normal.find(function(err, itemsCollection) {
+			if (err) return console.error(err);
+			callback(itemsCollection);
+
+		});
+	};
+	data.largeData = function(callback) {
+
+		var data_large = mongoose.model('data_large', theObject);
+
+		data_large.find(function(err, itemsCollection) {
+			if (err) return console.error(err);
+			callback(itemsCollection);
+		});
+	};
 
 	// Find all itemsCollection that have a credit cookie.
-	/*Item.find({
+	/*data_normal.find({
 		hasCreditCookie: true
 	}, function(err, itemsCollection) {
 		if (err) return console.error(err);
@@ -132,3 +105,5 @@ console.dir(itemsCollection);
 });
 
 mongoose.connect('mongodb://localhost/user');
+
+exports.storage = data;
